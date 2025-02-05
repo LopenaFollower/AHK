@@ -94,6 +94,9 @@ ReadGen(GuiAlwaysOnTop,"AlwaysOnTop")
 ReadGen(AutoSell,"AutoSell")
 ReadGen(AutoSellInterval,"AutoSellInterval")
 ReadGen(SendSellProfit,"SendSellProfit")
+ReadGen(SendFishScreenshot,"SendFishScreenshot")
+ReadGen(SendFishWhenTimeOn,"SendFishWhenTimeOn")
+ReadGen(SendFishWhenTimeValue,"SendFishWhenTimeValue")
 AutoGraphicsDelay:=50
 AutoZoomDelay:=40
 AutoCameraDelay:=25
@@ -196,6 +199,9 @@ DefaultSettings:
 	RtrvGen("AutoSell",0)
 	RtrvGen("AutoSellInterval",25)
 	RtrvGen("SendSellProfit",0)
+	RtrvGen("SendFishScreenshot",1)
+	RtrvGen("SendFishWhenTimeValue",50)
+	RtrvGen("SendFishWhenTimeOn",0)
 Return
 SaveSettings:
 	WriteGen("ShakeMode",ShakeMode)
@@ -235,6 +241,9 @@ SaveSettings:
 	WriteGen("AutoSell",AutoSell)
 	WriteGen("AutoSellInterval",AutoSellInterval)
 	WriteGen("SendSellProfit",SendSellProfit)
+	WriteGen("SendFishScreenshot",SendFishScreenshot)
+	WriteGen("SendFishWhenTimeOn",SendFishWhenTimeOn)
+	WriteGen("SendFishWhenTimeValue",SendFishWhenTimeValue)
 Return
 GuiRuntime:
 	runtime1++
