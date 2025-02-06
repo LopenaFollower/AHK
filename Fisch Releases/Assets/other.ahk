@@ -59,14 +59,14 @@ getCameraState(){
 	t:=0
 	file:=""
 	Loop,%logPath%\*.log{
-		If((ct:=A_LoopFileTimeModified)>=t){
+		If((ct:=A_LoopFileTimeModified)>=t&&SubStr(A_LoopFileName,-7,4)="last"){
 			t:=ct
 			file:=A_LoopFileFullPath
 		}
 	}
 	FileRead,state,%file%
 	state:=SubStr(state,InStr(state,"setting cinematic mode to ",False,0),32)
-	Return InStr(state,"true")
+	Return InStr(state, "True")>0
 }
 CameraMode(t){
 	Global AutoCameraDelay,CameraModeX,CameraModeY
@@ -92,7 +92,7 @@ FetchInstructions(){
 	Return StrSplit(req.ResponseText,"`n")
 }
 SendStatus(st,info:=0){
-	Global UseWebhook,WebhookURL,NotifyOnFailsafe,runtime2,SendScreenshotFL
+	Global UseWebhook,WebhookURL,NotifyOnFailsafe,runtime2,SendScreenshot,FishBarLeft,FishBarRight,SellButtonBottom,FishBarBottom,SendFishScreenshot
 	If UseWebhook&&StrLen(WebhookURL)>100{
 		payload:=""
 		FormatTime,ct,,hh:mm:ss
@@ -115,7 +115,15 @@ SendStatus(st,info:=0){
 			ratio:=fc " / "fl " ("RegExReplace(fc/(fc+fl)*100,"(?<=\.\d{3}).*$") "%)"
 			dur:=RegExReplace(d,"(?<=\.\d{3}).*$")
 			caught:=s?"Fish took "dur "s to catch.":"Spent "dur "s trying to catch the fish."
-			req.Send("{""embeds"":[{""color"":15258703,""fields"":[{""name"":""Catch Rate"",""value"":"""ratio """},{""name"":""Fish was "(s?"Caught!":"Lost.") """,""value"":"""caught """},{""name"":""Runtime"",""value"": """elapsed """}],""footer"":{""text"":"""ct """}}]}")
+			if SendFishScreenshot {
+				CameraMode(False)
+				Sleep, 15
+				CS2DC(FishBarLeft,SellButtonBottom,FishBarRight,FishBarBottom,"{""embeds"":[{""color"":15258703,""image"":{""url"":""attachment://screenshot.png""},""fields"":[{""name"":""Catch Rate"",""value"":"""ratio """},{""name"":""Fish was "(s?"Caught!":"Lost.") """,""value"":"""caught """},{""name"":""Runtime"",""value"": """elapsed """}],""footer"":{""text"":"""ct """}}]}")
+				CameraMode(True)
+			}
+			else {
+				req.Send("{""embeds"":[{""color"":15258703,""fields"":[{""name"":""Catch Rate"",""value"":"""ratio """},{""name"":""Fish was "(s?"Caught!":"Lost.") """,""value"":"""caught """},{""name"":""Runtime"",""value"": """elapsed """}],""footer"":{""text"":"""ct """}}]}")
+			}
 		case 4:
 			FailsafeMessage:=info[1]
 			Occurences:=info[2]
