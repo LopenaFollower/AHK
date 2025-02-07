@@ -92,7 +92,7 @@ FetchInstructions(){
 	Return StrSplit(req.ResponseText,"`n")
 }
 SendStatus(st,info:=0){
-	Global UseWebhook,WebhookURL,NotifyOnFailsafe,runtime2,SendScreenshot,FishBarLeft,FishBarRight,SellButtonBottom,FishBarBottom,SendFishScreenshot
+	Global UseWebhook,WebhookURL,NotifyOnFailsafe,runtime2,SendScreenshot,FishBarLeft,FishBarRight,SellButtonBottom,FishBarTop,SendFishScreenshot,ScreenshotDelay
 	If UseWebhook&&StrLen(WebhookURL)>100{
 		payload:=""
 		FormatTime,ct,,hh:mm:ss
@@ -116,9 +116,11 @@ SendStatus(st,info:=0){
 			dur:=RegExReplace(d,"(?<=\.\d{3}).*$")
 			caught:=s?"Fish took "dur "s to catch.":"Spent "dur "s trying to catch the fish."
 			if SendFishScreenshot {
+				Sleep, %ScreenshotDelay%
 				CameraMode(False)
-				Sleep, 15
-				CS2DC(FishBarLeft,SellButtonBottom,FishBarRight,FishBarBottom,"{""embeds"":[{""color"":15258703,""image"":{""url"":""attachment://screenshot.png""},""fields"":[{""name"":""Catch Rate"",""value"":"""ratio """},{""name"":""Fish was "(s?"Caught!":"Lost.") """,""value"":"""caught """},{""name"":""Runtime"",""value"": """elapsed """}],""footer"":{""text"":"""ct """}}]}")
+				Sleep, %ScreenshotDelay%
+				CS2DC(FishBarLeft,SellButtonBottom,FishBarRight,FishBarTop,"{""embeds"":[{""color"":15258703,""image"":{""url"":""attachment://screenshot.png""},""fields"":[{""name"":""Catch Rate"",""value"":"""ratio """},{""name"":""Fish was "(s?"Caught!":"Lost.") """,""value"":"""caught """},{""name"":""Runtime"",""value"": """elapsed """}],""footer"":{""text"":"""ct """}}]}")
+				Sleep, %ScreenshotDelay%
 				CameraMode(True)
 			}
 			else {

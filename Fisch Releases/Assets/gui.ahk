@@ -102,10 +102,12 @@ InitGui:
 	SSP:=Chkd(SendSellProfit)
 	Gui Add,CheckBox,vCBSP gSubAll x129 y104 w154 h14 %SSP%,Send Sell Profits (Gamepass)
 	SFS:=Chkd(SendFishScreenshot),SFWT:=Chkd(SendFishWhenTimeOn)
-	Gui Add,CheckBox,vCBFSS gSubAll x129 y120 w174 h14 %SFS%,Send Fish Screenshot On Catch
-	Gui Add,CheckBox,vCBFTSO gSubAll x129 y136 h14 %SFWT%,Only Send If Catch Time < 
-	Gui Add,Edit,vCBFTSV gSubAll x275 y136 w26 h18 Number,%SendFishWhenTimeValue%
-	Gui Add,Text,x305 y139,Seconds
+	Gui Add,CheckBox,vCBFSS gSubAll x129 y120 w174 h14 %SFS%,Send Fish Screenshot on Catch
+	Gui Add, Text, x129 y138, % "Screenshot Delay:"
+	Gui Add,Edit, gSubAll vSSD x219 y136 w40 h18 Number,%ScreenshotDelay%
+	Gui Add,CheckBox,vCBFTSO gSubAll x129 y155 h14 %SFWT%,Only Send if Catch Time < 
+	Gui Add,Edit,vCBFTSV gSubAll x275 y153 w26 h18 Number,%SendFishWhenTimeValue%
+	Gui Add,Text,x305 y155,seconds
 	Gui Tab,4
 	cnfgoptions:=ScanForConfigs(curMGFile)
 	Gui Add,DropDownList,vMGCF gMGCCF x2 y24 w100,% cnfgoptions[1]
@@ -348,6 +350,7 @@ InitGui:
 		SendSellProfit:=CBSP
 		AutoSellInterval:=ASIG
 		SendFishScreenshot:=CBFSS
+		ScreenshotDelay:=SSD
 		SendFishWhenTimeOn:=CBFTSO
 		SendFishWhenTimeValue:=CBFTSV
 		If Trim(DDBN)!=""
