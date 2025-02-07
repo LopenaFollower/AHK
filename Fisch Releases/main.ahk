@@ -96,6 +96,7 @@ ReadGen(AutoSell,"AutoSell")
 ReadGen(AutoSellInterval,"AutoSellInterval")
 ReadGen(SendSellProfit,"SendSellProfit")
 ReadGen(SendFishScreenshot,"SendFishScreenshot")
+ReadGen(ScreenshotDelay,"ScreenshotDelay")
 ReadGen(SendFishWhenTimeOn,"SendFishWhenTimeOn")
 ReadGen(SendFishWhenTimeValue,"SendFishWhenTimeValue")
 AutoGraphicsDelay:=50
@@ -201,7 +202,8 @@ DefaultSettings:
 	RtrvGen("AutoSellInterval",25)
 	RtrvGen("SendSellProfit",0)
 	RtrvGen("SendFishScreenshot",1)
-	RtrvGen("SendFishWhenTimeValue",50)
+	RtrvGen("ScreenshotDelay",45)
+	RtrvGen("SendFishWhenTimeValue",20)
 	RtrvGen("SendFishWhenTimeOn",0)
 Return
 SaveSettings:
@@ -243,6 +245,7 @@ SaveSettings:
 	WriteGen("AutoSellInterval",AutoSellInterval)
 	WriteGen("SendSellProfit",SendSellProfit)
 	WriteGen("SendFishScreenshot",SendFishScreenshot)
+	WriteGen("ScreenshotDelay",ScreenshotDelay)
 	WriteGen("SendFishWhenTimeOn",SendFishWhenTimeOn)
 	WriteGen("SendFishWhenTimeValue",SendFishWhenTimeValue)
 Return
