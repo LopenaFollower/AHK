@@ -79,7 +79,7 @@ InitGui:
 	Gui Add,Text,x5 y24 w73 h14,Webhook URL
 	Gui Add,Edit,vWURL gSubAll x3 y36 w120 h21,%WebhookURL%
 	UWH:=Chkd(UseWebhook)
-	Gui Add,CheckBox,vCBWH gSubAll x4 y59 w100 h14 %UWH%,Enable Webhook
+	Gui Add,CheckBox,vCBWH gValidateWebhook x4 y59 w100 h14 %UWH%,Enable Webhook
 	Gui Add,Text,x4 y76 w56 h13,Notify every
 	Gui Add,Edit,vWHSK gSubAll x60 y74 w22 h18 Number,%NotifEveryN%
 	Gui Add,Text,x83 y76 w40 h13,catches.
@@ -378,6 +378,19 @@ InitGui:
 		AskUser("Save Settings","Overwrite old settings?")
 		IfMsgBox Yes
 			Goto SaveSettings
+	Return
+	ValidateWebhook:
+		UrlDownloadToFile, "%WebhookURL%", A_ScriptDir "\temp.txt"
+		FileRead, output, A_ScriptDir "\temp.txt"
+		msgbox % output
+		GuiControlGet, webhookOn,,CBWH
+		if (webhookOn) {
+			if ((!RegexMatch(WebhookURL, "i)https:\/\/(canary\.|ptb\.)?(discord|discordapp)\.com\/api\/webhooks\/([\d]+)\/([a-z0-9_-]+)"))||SubStr(WebhookUrl,1,33)!="https://discord.com/api/webhooks/") { ; filter by natro
+				GuiControl,,CBWH,0
+				MsgBox % "Invalid webhook URL, webhook option has been disabled."
+			}
+		}
+		Goto SubAll
 	Return
 	MGCCF:
 		Gui Submit,NoHide
