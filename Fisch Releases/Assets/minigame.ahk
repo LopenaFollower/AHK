@@ -1,4 +1,4 @@
-;23
+;24
 #Include ..\main.ahk
 Track:
 	If GetFishPos()||Seraphic{
@@ -23,6 +23,8 @@ Track:
 Return
 BarMinigame:
 	Sleep 700
+	If AutoBlurMinigame
+		Send m
 	ForceReset:=False
 	BarCalcFailsafeCounter:=0
 	SetTimer,Failsafe2,1000
@@ -55,8 +57,6 @@ BarMinigame:
 				Break
 		}
 	}
-	If AutoBlurMinigame
-		Send {``}
 	UpdateTask("Current Task: Bar Minigame")
 	HalfBarSize:=WhiteBarSize/2
 	SideDelay:=0
@@ -203,6 +203,8 @@ MinigameLoop:
 		SetTimer,Track,Off
 		Loop,3
 			Tooltip,,,,%A_Index%
+		If AutoBlurMinigame
+			Send m
 		CatchCount++
 		If WasFishCaught
 			FishCaught++
